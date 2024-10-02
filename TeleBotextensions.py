@@ -36,4 +36,4 @@ class CurrencyConverter:
 
         conversion_rate = rates[quote_currency]
         total = round(conversion_rate * amount, 2)
-        return total  
+        return total

@@ -6,7 +6,9 @@ import traceback
 
 bot = telebot.TeleBot(TOKEN)
 
+
 user_states = {}
+
 
 STATE_WAITING_FOR_NAME = "waiting_for_name"
 STATE_READY_FOR_CONVERSION = "ready_for_conversion"
@@ -18,7 +20,7 @@ unsupported_currencies = ["yen", "pound", "franc"]
 def welcome(message: telebot.types.Message):
     text = (
         "Hello! I can help you find out the current exchange rate.\n"
-        "Please enter your name, so Bot could help you:"
+        "Please enter your name, so Bot can help you:"
     )
 
     user_states[message.chat.id] = STATE_WAITING_FOR_NAME
@@ -30,7 +32,6 @@ def available_currencies(message: telebot.types.Message):
     text = "Available currencies:\n" + '\n'.join(f"- {key.capitalize()}" for key in CURRENCY_MAP.keys())
     text += "\nCurrently unavailable currencies (coming soon):\n- Yen\n- Pound\n- Franc"
     bot.send_message(message.chat.id, text)
-
 
 @bot.message_handler(func=lambda message: user_states.get(message.chat.id) == STATE_WAITING_FOR_NAME)
 def ask_name(message: telebot.types.Message):
@@ -67,7 +68,9 @@ def handle_conversion(message: telebot.types.Message):
 
         bot.send_message(
             message.chat.id,
-            f" {amount} {base.capitalize()} ➡ {quote.capitalize()} = {conversion_result} {quote.upper()}"
+            f" {amount} {base.capitalize()} ➡️ {quote.capitalize()} = {conversion_result} {quote.upper()}. "
+            f"To continue, write down another currencies:"
+
         )
 
     except APIException as e:
